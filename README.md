@@ -76,7 +76,7 @@ This feature is especially powerful if you enable "Auto rename" in settings, you
 
 ### Exclude Paths
 
-> New in 1.6.0
+> New in 1.7.0
 
 Add a new setting `Exclude path pattern` which allows you to exclude renaming if the file being being pasted into's path matches a regular expression pattern.
 
