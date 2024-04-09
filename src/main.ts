@@ -44,7 +44,7 @@ interface PluginSettings {
 	autoRename: boolean
 	handleAllAttachments: boolean
 	excludeExtensionPattern: string
-	excludeFolderPattern: string
+	excludePathPattern: string
 	disableRenameNotice: boolean
 }
 
@@ -56,7 +56,7 @@ const DEFAULT_SETTINGS: PluginSettings = {
 	autoRename: false,
 	handleAllAttachments: false,
 	excludeExtensionPattern: '',
-	excludeFolderPattern: '',
+	excludePathPattern: '',
 	disableRenameNotice: false,
 }
 
@@ -671,6 +671,19 @@ class SettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.excludeExtensionPattern)
 				.onChange(async (value) => {
 					this.plugin.settings.excludeExtensionPattern = value;
+					await this.plugin.saveSettings();
+				}
+			));
+
+		new Setting(containerEl)
+			.setName('Exclude path pattern')
+			.setDesc(`Write a Regex pattern to exclude certain paths from being handled. Only the first line will be used.`)
+			.setClass('single-line-textarea')
+			.addTextArea(text => text
+				.setPlaceholder('^Journal\/|^Zotero\/')
+				.setValue(this.plugin.settings.excludePathPattern)
+				.onChange(async (value) => {
+					this.plugin.settings.excludePathPattern = value;
 					await this.plugin.saveSettings();
 				}
 			));
