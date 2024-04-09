@@ -74,6 +74,14 @@ If we paste the third image without editing the "New name" input, its name will 
 
 This feature is especially powerful if you enable "Auto rename" in settings, you can just add new images without thinking, and they will be renamed sequentially by the pattern and `imageNameKey` set.
 
+### Exclude Paths
+
+> New in 1.6.0
+
+Add a new setting `Exclude path pattern` which allows you to exclude renaming if the file being being pasted into's path matches a regular expression pattern.
+
+For example, suppose that you don't want to rename attachments to files in `My Special Folder`. If you set the `Exclude path pattern` setting to `^My Special Folder\/` renaming will not be invoked on any files in that folder. Note the leading `^` and ending `\/` in the regular expression. These ensure the pattern matches at the beginning of the path and includes the `/` character at the end. Without the latter the regular expression would match a file named `My Special Folder` in addition to any files in that folder.
+
 ### Batch renaming process
 
 > New in 1.3.0
@@ -160,6 +168,9 @@ that match the given extension pattern.
 
   This option is only useful when "Handle all attachments" is enabled.
 	Write a Regex pattern to exclude certain extensions from being handled. Only the first line will be used.
+- **Exclude path pattern**
+
+	Write a Regex pattern to exclude certain paths from being handled. Only the first line will be used.
 - **Disable rename notice**
 
   Turn off this option if you don't want to see the notice when renaming images.
