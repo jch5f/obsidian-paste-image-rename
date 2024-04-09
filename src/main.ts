@@ -44,6 +44,7 @@ interface PluginSettings {
 	autoRename: boolean
 	handleAllAttachments: boolean
 	excludeExtensionPattern: string
+	excludeFolderPattern: string
 	disableRenameNotice: boolean
 }
 
@@ -55,6 +56,7 @@ const DEFAULT_SETTINGS: PluginSettings = {
 	autoRename: false,
 	handleAllAttachments: false,
 	excludeExtensionPattern: '',
+	excludeFolderPattern: '',
 	disableRenameNotice: false,
 }
 
@@ -92,6 +94,10 @@ export default class PasteImageRenamePlugin extends Plugin {
 						debugLog('handleAllAttachments for file', file)
 						if (this.testExcludeExtension(file)) {
 							debugLog('excluded file by ext', file)
+							return
+						}
+						if (this.testExcludeFolder(file)) {
+							debugLog('excluded file by folder', file)
 							return
 						}
 						this.startRenameProcess(file, this.settings.autoRename)
@@ -371,6 +377,11 @@ export default class PasteImageRenamePlugin extends Plugin {
 		const pattern = this.settings.excludeExtensionPattern
 		if (!pattern) return false
 		return new RegExp(pattern).test(file.extension)
+	}
+	testExcludeFolder(file: TFile): boolean {
+		const pattern = this.settings.excludeFolderPattern
+		if (!pattern) return false
+		return new RegExp(pattern).test(file.path)
 	}
 
 	async loadSettings() {
