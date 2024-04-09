@@ -88,6 +88,11 @@ export default class PasteImageRenamePlugin extends Plugin {
 					return
 				if (isPastedImage(file)) {
 					debugLog('pasted image created', file)
+					const activeFile = this.getActiveFile()
+					if (this.testExcludePath(activeFile)) {
+						debugLog('excluded file by path', activeFile)
+						return
+					}
 					this.startRenameProcess(file, this.settings.autoRename)
 				} else {
 					if (this.settings.handleAllAttachments) {
@@ -96,8 +101,9 @@ export default class PasteImageRenamePlugin extends Plugin {
 							debugLog('excluded file by ext', file)
 							return
 						}
-						if (this.testExcludeFolder(file)) {
-							debugLog('excluded file by folder', file)
+						const activeFile = this.getActiveFile()
+						if (this.testExcludePath(activeFile)) {
+							debugLog('excluded file by path', activeFile)
 							return
 						}
 						this.startRenameProcess(file, this.settings.autoRename)
@@ -378,9 +384,10 @@ export default class PasteImageRenamePlugin extends Plugin {
 		if (!pattern) return false
 		return new RegExp(pattern).test(file.extension)
 	}
-	testExcludeFolder(file: TFile): boolean {
-		const pattern = this.settings.excludeFolderPattern
+	testExcludePath(file: TFile): boolean {
+		const pattern = this.settings.excludePathPattern
 		if (!pattern) return false
+		debugLog('file path', file.path)
 		return new RegExp(pattern).test(file.path)
 	}
 
