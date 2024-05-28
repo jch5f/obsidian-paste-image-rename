@@ -103,7 +103,7 @@ export default class PasteImageRenamePlugin extends Plugin {
 						}
 						const activeFile = this.getActiveFile()
 						if (this.testExcludePath(activeFile, file)) {
-							debugLog("excluded file by path", activeFile);
+							debugLog('excluded file by path', activeFile)
 							return;
 						}
 						this.startRenameProcess(file, this.settings.autoRename)
